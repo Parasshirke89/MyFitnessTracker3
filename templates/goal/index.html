@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}Goals - Fitness Tracker{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-target"></i> My Goals</h1>
+    <a href="{{ url_for('goal.new') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Create Goal
+    </a>
+</div>
+
+<!-- Active Goals -->
+{% if active_goals %}
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-play-circle"></i> Active Goals</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {% for goal in active_goals %}
+            <div class="col-lg-6 mb-3">
+                <div class="card h-100 border-{{ 'success' if goal.get_progress_percentage() >= 75 else 'warning' if goal.get_progress_percentage() >= 50 else 'info' }}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">{{ goal.title }}</h5>
+                            <span class="badge bg-{{ 'success' if goal.get_progress_percentage() >= 75 else 'warning' if goal.get_progress_percentage() >= 50 else 'info' }}">
+                                {{ goal.timeframe|title }}
+                            </span>
+                        </div>
+                        
+                        <p class="text-muted mb-3">{{ goal.goal_type|title }} Goal</p>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-bold">{{ goal.current_value }}/{{ goal.target_value }} {{ goal.unit }}</span>
+                                <span class="text-muted">{{ goal.get_progress_percentage()|round(1) }}%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-{{ 'success' if goal.get_progress_percentage() >= 75 else 'warning' if goal.get_progress_percentage() >= 50 else 'info' }}" 
+                                     role="progressbar" 
+                                     style="width: {{ goal.get_progress_percentage() }}%"
+                                     aria-valuenow="{{ goal.current_value }}" 
+                                     aria-valuemin="0" 
+                                     aria-valuemax="{{ goal.target_value }}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                Started: {{ goal.start_date.strftime('%m/%d/%Y') }}
+                            </small>
+                            <div class="btn-group">
+                                <a href="{{ url_for('goal.show', id=goal.id) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i> View
+                                </a>
+                                <a href="{{ url_for('goal.edit', id=goal.id) }}" class="btn btn-sm btn-outline-warning">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                                <button type="button" class="btn btn-sm btn-outline-success" 
+                                        onclick="if(confirm('Mark this goal as completed?')) { document.getElementById('complete-form-{{ goal.id }}').submit(); }">
+                                    <i class="bi bi-check-circle"></i> Complete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hidden complete form -->
+            <form id="complete-form-{{ goal.id }}" method="POST" action="{{ url_for('goal.complete', id=goal.id) }}" style="display: none;">
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Completed Goals -->
+{% if completed_goals %}
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-check-circle"></i> Completed Goals</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {% for goal in completed_goals %}
+            <div class="col-lg-6 mb-3">
+                <div class="card h-100 border-success bg-light">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">{{ goal.title }}</h5>
+                            <span class="badge bg-success">Completed</span>
+                        </div>
+                        
+                        <p class="text-muted mb-3">{{ goal.goal_type|title }} Goal</p>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-bold text-success">{{ goal.target_value }}/{{ goal.target_value }} {{ goal.unit }}</span>
+                                <span class="text-success">100%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                Completed: {{ goal.updated_at.strftime('%m/%d/%Y') }}
+                            </small>
+                            <div class="btn-group">
+                                <a href="{{ url_for('goal.show', id=goal.id) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i> View
+                                </a>
+                                <button type="button" class="btn btn-sm btn-outline-info" 
+                                        onclick="if(confirm('Reactivate this goal?')) { document.getElementById('reactivate-form-{{ goal.id }}').submit(); }">
+                                    <i class="bi bi-arrow-clockwise"></i> Reactivate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hidden reactivate form -->
+            <form id="reactivate-form-{{ goal.id }}" method="POST" action="{{ url_for('goal.reactivate', id=goal.id) }}" style="display: none;">
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- No Goals Message -->
+{% if not active_goals and not completed_goals %}
+<div class="text-center py-5">
+    <i class="bi bi-target" style="font-size: 4rem; color: #dee2e6;"></i>
+    <h3 class="mt-3 text-muted">No goals set yet</h3>
+    <p class="text-muted">Set your first fitness goal to start tracking your progress!</p>
+    <a href="{{ url_for('goal.new') }}" class="btn btn-primary btn-lg">
+        <i class="bi bi-plus-circle"></i> Create Your First Goal
+    </a>
+</div>
+{% endif %}
+
+<!-- Goal Types Info -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-info-circle"></i> Goal Types</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h6><i class="bi bi-fire text-danger"></i> Calories Burned</h6>
+                <p class="text-muted small">Track total calories burned through workouts</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h6><i class="bi bi-lightning text-warning"></i> Workout Sessions</h6>
+                <p class="text-muted small">Set targets for number of workout sessions</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h6><i class="bi bi-speedometer2 text-success"></i> Duration</h6>
+                <p class="text-muted small">Track total workout time in minutes</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

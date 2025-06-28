@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Add Meal - Fitness Tracker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0"><i class="bi bi-plus-circle"></i> Add New Meal</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            {{ form.food_name.label(class="form-label") }}
+                            {{ form.food_name(class="form-control" + (" is-invalid" if form.food_name.errors else ""), placeholder="e.g., Grilled Chicken Breast") }}
+                            {% if form.food_name.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.food_name.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            {{ form.meal_type.label(class="form-label") }}
+                            {{ form.meal_type(class="form-select" + (" is-invalid" if form.meal_type.errors else "")) }}
+                            {% if form.meal_type.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.meal_type.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.calories.label(class="form-label") }}
+                            <div class="input-group">
+                                {{ form.calories(class="form-control" + (" is-invalid" if form.calories.errors else "")) }}
+                                <span class="input-group-text">kcal</span>
+                            </div>
+                            {% if form.calories.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.calories.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            {{ form.protein.label(class="form-label") }}
+                            <div class="input-group">
+                                {{ form.protein(class="form-control" + (" is-invalid" if form.protein.errors else "")) }}
+                                <span class="input-group-text">g</span>
+                            </div>
+                            {% if form.protein.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.protein.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.carbs.label(class="form-label") }}
+                            <div class="input-group">
+                                {{ form.carbs(class="form-control" + (" is-invalid" if form.carbs.errors else "")) }}
+                                <span class="input-group-text">g</span>
+                            </div>
+                            {% if form.carbs.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.carbs.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            {{ form.fats.label(class="form-label") }}
+                            <div class="input-group">
+                                {{ form.fats(class="form-control" + (" is-invalid" if form.fats.errors else "")) }}
+                                <span class="input-group-text">g</span>
+                            </div>
+                            {% if form.fats.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.fats.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        {{ form.date.label(class="form-label") }}
+                        {{ form.date(class="form-control" + (" is-invalid" if form.date.errors else "")) }}
+                        {% if form.date.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.date.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                        <a href="{{ url_for('meal.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Help Card -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-info-circle"></i> Nutrition Tracking Tips</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Use food labels or nutrition databases for accurate values</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Measure portions carefully for better tracking</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Include all ingredients in complex meals</li>
+                    <li class="mb-0"><i class="bi bi-check-circle text-success"></i> Be consistent with your tracking for better results</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

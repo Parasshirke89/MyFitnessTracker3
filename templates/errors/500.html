@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error - Fitness Tracker{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <i class="bi bi-exclamation-circle" style="font-size: 4rem; color: #dc3545;"></i>
+    <h1 class="display-1 text-muted">500</h1>
+    <h2 class="mb-4">Server Error</h2>
+    <p class="lead text-muted mb-4">Something went wrong on our end. Please try again later.</p>
+    <a href="{{ url_for('dashboard.index') }}" class="btn btn-primary btn-lg">
+        <i class="bi bi-house"></i> Go to Dashboard
+    </a>
+</div>
+{% endblock %} 

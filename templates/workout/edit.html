@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Workout - Fitness Tracker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0"><i class="bi bi-pencil"></i> Edit Workout</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.exercise_type.label(class="form-label") }}
+                            {{ form.exercise_type(class="form-select" + (" is-invalid" if form.exercise_type.errors else "")) }}
+                            {% if form.exercise_type.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.exercise_type.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            {{ form.intensity.label(class="form-label") }}
+                            {{ form.intensity(class="form-select" + (" is-invalid" if form.intensity.errors else "")) }}
+                            {% if form.intensity.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.intensity.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.duration.label(class="form-label") }}
+                            <div class="input-group">
+                                {{ form.duration(class="form-control" + (" is-invalid" if form.duration.errors else "")) }}
+                                <span class="input-group-text">minutes</span>
+                            </div>
+                            {% if form.duration.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.duration.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            {{ form.calories.label(class="form-label") }}
+                            <div class="input-group">
+                                {{ form.calories(class="form-control" + (" is-invalid" if form.calories.errors else "")) }}
+                                <span class="input-group-text">kcal</span>
+                            </div>
+                            {% if form.calories.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.calories.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.date.label(class="form-label") }}
+                        {{ form.date(class="form-control" + (" is-invalid" if form.date.errors else "")) }}
+                        {% if form.date.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.date.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-4">
+                        {{ form.notes.label(class="form-label") }}
+                        {{ form.notes(class="form-control" + (" is-invalid" if form.notes.errors else ""), rows="3", placeholder="Optional notes about your workout...") }}
+                        {% if form.notes.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.notes.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                        <a href="{{ url_for('workout.show', id=workout.id) }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

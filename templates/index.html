@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - Fitness Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <div class="py-5">
+                <i class="bi bi-heart-pulse" style="font-size: 4rem; color: var(--primary-color);"></i>
+                <h1 class="display-4 mt-3">Welcome to Fitness Tracker</h1>
+                <p class="lead text-muted mb-5">Track your workouts, nutrition, and fitness goals with ease</p>
+                
+                {% if current_user.is_authenticated %}
+                    <div class="mb-4">
+                        <h3>Welcome back, {{ current_user.username }}!</h3>
+                        <p class="text-muted">Ready to continue your fitness journey?</p>
+                    </div>
+                    <div class="d-grid gap-3 d-md-flex justify-content-md-center">
+                        <a href="{{ url_for('dashboard.index') }}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-house"></i> Go to Dashboard
+                        </a>
+                        <a href="{{ url_for('workout.new') }}" class="btn btn-outline-primary btn-lg">
+                            <i class="bi bi-plus-circle"></i> Add Workout
+                        </a>
+                        <a href="{{ url_for('meal.new') }}" class="btn btn-outline-success btn-lg">
+                            <i class="bi bi-egg-fried"></i> Add Meal
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <i class="bi bi-lightning text-primary" style="font-size: 2rem;"></i>
+                                    <h4 class="mt-3">Track Workouts</h4>
+                                    <p class="text-muted">Log your exercise sessions with detailed information about type, duration, intensity, and calories burned.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <i class="bi bi-egg-fried text-warning" style="font-size: 2rem;"></i>
+                                    <h4 class="mt-3">Monitor Nutrition</h4>
+                                    <p class="text-muted">Record your meals and track calories, protein, carbs, and fats for better nutrition management.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <i class="bi bi-target text-success" style="font-size: 2rem;"></i>
+                                    <h4 class="mt-3">Set Goals</h4>
+                                    <p class="text-muted">Create fitness goals and track your progress with visual progress bars and statistics.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <i class="bi bi-graph-up text-info" style="font-size: 2rem;"></i>
+                                    <h4 class="mt-3">View Analytics</h4>
+                                    <p class="text-muted">See your progress with interactive charts and detailed statistics on your fitness journey.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-3 d-md-flex justify-content-md-center mt-4">
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-person-plus"></i> Get Started
+                        </a>
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary btn-lg">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

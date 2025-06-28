@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Create Goal - Fitness Tracker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0"><i class="bi bi-plus-circle"></i> Create New Goal</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.title.label(class="form-label") }}
+                        {{ form.title(class="form-control" + (" is-invalid" if form.title.errors else ""), placeholder="e.g., Burn 2000 calories this week") }}
+                        {% if form.title.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.title.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.goal_type.label(class="form-label") }}
+                            {{ form.goal_type(class="form-select" + (" is-invalid" if form.goal_type.errors else "")) }}
+                            {% if form.goal_type.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.goal_type.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            {{ form.timeframe.label(class="form-label") }}
+                            {{ form.timeframe(class="form-select" + (" is-invalid" if form.timeframe.errors else "")) }}
+                            {% if form.timeframe.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.timeframe.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.target_value.label(class="form-label") }}
+                            {{ form.target_value(class="form-control" + (" is-invalid" if form.target_value.errors else "")) }}
+                            {% if form.target_value.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.target_value.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            {{ form.unit.label(class="form-label") }}
+                            {{ form.unit(class="form-control" + (" is-invalid" if form.unit.errors else ""), placeholder="e.g., kcal, workouts, lbs") }}
+                            {% if form.unit.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.unit.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        {{ form.end_date.label(class="form-label") }}
+                        {{ form.end_date(class="form-control" + (" is-invalid" if form.end_date.errors else "")) }}
+                        <small class="form-text text-muted">Optional: Set an end date for your goal</small>
+                        {% if form.end_date.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.end_date.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                        <a href="{{ url_for('goal.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Help Card -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-info-circle"></i> Goal Setting Tips</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Set realistic and achievable goals</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Start with smaller goals and gradually increase</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Choose timeframes that work for your schedule</li>
+                    <li class="mb-0"><i class="bi bi-check-circle text-success"></i> Track your progress regularly to stay motivated</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-fill unit based on goal type
+document.getElementById('goal_type').addEventListener('change', function() {
+    const goalType = this.value;
+    const unitField = document.getElementById('unit');
+    
+    const units = {
+        'calories': 'kcal',
+        'workouts': 'sessions',
+        'weight': 'lbs',
+        'distance': 'miles',
+        'duration': 'minutes'
+    };
+    
+    if (units[goalType]) {
+        unitField.value = units[goalType];
+    }
+});
+</script>
+{% endblock %} 
