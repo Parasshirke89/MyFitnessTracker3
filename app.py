@@ -1,6 +1,7 @@
+import os
 from flask import Flask, render_template, redirect, url_for
 from flask_login import LoginManager, current_user
-from config import Config
+from config import config
 from models.user import db, User
 from blueprints.auth import auth
 from blueprints.dashboard import dashboard
@@ -9,14 +10,18 @@ from blueprints.meal import meal
 from blueprints.goal import goal
 from blueprints.profile import profile
 
-def create_app(config_class=Config):
+def create_app(config_name=None):
     """Application factory function to create and configure the Flask app"""
+    
+    # Determine configuration to use
+    if config_name is None:
+        config_name = os.environ.get('FLASK_ENV', 'default')
     
     # Create Flask application instance
     app = Flask(__name__)
     
     # Load configuration
-    app.config.from_object(config_class)
+    app.config.from_object(config[config_name])
     
     # Initialize extensions
     db.init_app(app)
@@ -78,5 +83,6 @@ if __name__ == '__main__':
         db.create_all()
         print("Database tables created successfully!")
     
-    # Run the application in development mode
-    app.run(debug=True, host='0.0.0.0', port=5000) 
+    # Run the application
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port) 
