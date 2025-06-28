@@ -1,5 +1,7 @@
 # Fitness Tracker - Web Application
 
+> **A comprehensive web-based fitness and nutrition tracking application built as a YTBSc IT project by Paras Shirke**
+
 A professional-grade, web-based fitness and nutrition tracker built with Python Flask, SQLite, Bootstrap 5, and Chart.js.
 
 ## 🚀 Features
@@ -237,31 +239,21 @@ Edit `models/goal.py` and add new goal types to the `get_goal_types()` method.
 - Ensure all template files are in the correct directories
 - Check for proper Jinja2 syntax in templates
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
 ## 📝 License
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 🙏 Acknowledgments
+## 👨‍💻 Author
 
-- Flask community for the excellent web framework
-- Bootstrap team for the responsive CSS framework
-- Chart.js for the interactive charts
-- All contributors and users of this application
+**Paras Shirke**
 
-## 📞 Support
+- **Project**: MyFitnessTracker3 - YTBSc IT Project
+- **GitHub**: [Parasshirke89](https://github.com/Parasshirke89)
+- **Email**: shirkeparas89@gmail.com
 
-If you encounter any issues or have questions:
-1. Check the troubleshooting section above
-2. Review the code comments for guidance
-3. Create an issue in the repository
+### About This Project
+
+This fitness tracking application was developed as part of my YTBSc IT curriculum. The project demonstrates full-stack web development skills using Python Flask, database management, and modern web technologies.
 
 ---
 
