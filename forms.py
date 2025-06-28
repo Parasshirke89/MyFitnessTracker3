@@ -134,4 +134,65 @@ class FilterForm(FlaskForm):
     end_date = DateField('End Date', validators=[Optional()])
     exercise_type = SelectField('Exercise Type', validators=[Optional()], choices=[('', 'All Types')])
     meal_type = SelectField('Meal Type', validators=[Optional()], choices=[('', 'All Meals')])
-    submit = SubmitField('Filter') 
+    submit = SubmitField('Filter')
+
+class ProfileUpdateForm(FlaskForm):
+    """Form for updating user profile"""
+    username = StringField('Username', validators=[
+        DataRequired(message='Username is required'),
+        Length(min=3, max=80, message='Username must be between 3 and 80 characters')
+    ])
+    email = StringField('Email', validators=[
+        DataRequired(message='Email is required'),
+        Email(message='Please enter a valid email address')
+    ])
+    first_name = StringField('First Name', validators=[
+        Optional(),
+        Length(max=50, message='First name must be less than 50 characters')
+    ])
+    last_name = StringField('Last Name', validators=[
+        Optional(),
+        Length(max=50, message='Last name must be less than 50 characters')
+    ])
+    age = IntegerField('Age', validators=[
+        Optional(),
+        NumberRange(min=1, max=120, message='Age must be between 1 and 120')
+    ])
+    weight = FloatField('Weight (kg)', validators=[
+        Optional(),
+        NumberRange(min=20, max=500, message='Weight must be between 20 and 500 kg')
+    ])
+    height = FloatField('Height (cm)', validators=[
+        Optional(),
+        NumberRange(min=50, max=300, message='Height must be between 50 and 300 cm')
+    ])
+    gender = SelectField('Gender', validators=[Optional()], choices=[
+        ('', 'Prefer not to say'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Other', 'Other')
+    ])
+    activity_level = SelectField('Activity Level', validators=[Optional()], choices=[
+        ('', 'Select activity level'),
+        ('Sedentary', 'Sedentary (little or no exercise)'),
+        ('Lightly Active', 'Lightly Active (light exercise 1-3 days/week)'),
+        ('Moderately Active', 'Moderately Active (moderate exercise 3-5 days/week)'),
+        ('Very Active', 'Very Active (hard exercise 6-7 days/week)'),
+        ('Extremely Active', 'Extremely Active (very hard exercise, physical job)')
+    ])
+    submit = SubmitField('Update Profile')
+
+class PasswordChangeForm(FlaskForm):
+    """Form for changing user password"""
+    current_password = PasswordField('Current Password', validators=[
+        DataRequired(message='Current password is required')
+    ])
+    new_password = PasswordField('New Password', validators=[
+        DataRequired(message='New password is required'),
+        Length(min=6, message='Password must be at least 6 characters long')
+    ])
+    confirm_new_password = PasswordField('Confirm New Password', validators=[
+        DataRequired(message='Please confirm your new password'),
+        EqualTo('new_password', message='Passwords must match')
+    ])
+    submit = SubmitField('Change Password') 

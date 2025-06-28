@@ -7,6 +7,7 @@ from blueprints.dashboard import dashboard
 from blueprints.workout import workout
 from blueprints.meal import meal
 from blueprints.goal import goal
+from blueprints.profile import profile
 
 def create_app(config_class=Config):
     """Application factory function to create and configure the Flask app"""
@@ -38,6 +39,7 @@ def create_app(config_class=Config):
     app.register_blueprint(workout)
     app.register_blueprint(meal)
     app.register_blueprint(goal)
+    app.register_blueprint(profile)
     
     # Root route
     @app.route('/')
